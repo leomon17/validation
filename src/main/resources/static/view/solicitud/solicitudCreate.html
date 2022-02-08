@@ -1,0 +1,156 @@
+<style>
+    .wysiwyg>[contenteditable=true] img {
+        max-width: 100% !important;
+        max-height: 50vh !important;
+        image-orientation: from-image;
+    }
+
+    .wysiwyg {
+        height: 700px;
+    }
+
+    .wysiwyg>[contenteditable=true] {
+        height: 668px !important;
+        overflow-y: auto;
+    }
+</style>
+<style>
+    .document-content {
+       background-color: #FFFFFF;
+    }
+</style>
+<link rel="stylesheet" href="../../css/trix.css">
+<script src="../../js/trix.js"></script>
+<script src="../../js/wysiwyg/js/config.js"></script>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5>Registro de Solicitud</h5>
+        </div>
+        <form novalidate class="needs-validation">
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-md-4 col-lg-4">
+                        <label for="name">Nombre</label>
+                        <input type="text" ng-model="solicitud.name" class="form-control mt-1" required
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="name" placeholder="Nombre" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <label for="lastname">Apellido Paterno</label>
+                        <input type="text" ng-model="solicitud.lastname" class="form-control mt-1" required
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="lastname" placeholder="Apellido Paterno" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <label for="name">Apellido Materno</label>
+                        <input type="text" ng-model="solicitud.surname" class="form-control mt-1"
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="surname" placeholder="Apellido Materno" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="row g-2 mt-4">
+                    <div class="col-md-2 col-lg-2">
+                        <label for="phone">Fecha Nacimiento</label>
+                        <input type="date" ng-model="solicitud.dateBirth" class="form-control mt-1" required
+                        pattern="" id="phone" placeholder="Fecha" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" ng-model="solicitud.email" class="form-control mt-1" required
+                        id="email" placeholder="Correo Electrónico" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <label for="phone">Número de Teléfono</label>
+                        <input type="text" ng-model="solicitud.phone" class="form-control mt-1" required
+                        pattern="[\(]?[\+]?(\d{2}|\d{3})[\)]?[\s]?((\d{6}|\d{8})|(\d{3}[\*\.\-\s]){3}|(\d{2}[\*\.\-\s]){4}|(\d{4}[\*\.\-\s]){2})|\d{8}|\d{10}|\d{12}" 
+                        id="phone" placeholder="Número de Teléfono" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-2 col-lg-2">
+                        <label for="">Sexo</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" required>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                              Hombre
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                              Mujer
+                            </label>
+                            <div class="invalid-feedback">Este es un campo obligatorio</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row g-2 mt-4">
+                    <div class="col-md-3 col-lg-3">
+                        <label for="address">Estado</label>
+                        <select class="select2 form-select custom-select" required id="state"
+                            ng-model="solicitud.state"
+                            ng-options="item as item.name for item in listTypeNotification track by item.id">
+                            <option value="">SELECCIONE UN ESTADO...</option>
+                        </select>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-3 col-lg-3">
+                        <label for="address">Municipio</label>
+                        <select class="select2 form-select custom-select" required id="municipality"
+                            ng-model="solicitud.municipality"
+                            ng-options="item as item.name for item in listTypeNotification track by item.id">
+                            <option value="">SELECCIONE UN MUNICIPIO...</option>
+                        </select>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <label for="address">Colonia | Calle | Número</label>
+                        <input type="text" ng-model="solicitud.address" class="form-control mt-1" required
+                        id="address" placeholder="Dirección" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                </div>
+                <div class="row g-2 mt-3">
+                    <div class="col-md-4 col-lg-4">
+                        <label for="name">Institución</label>
+                        <input type="text" ng-model="solicitud.name" class="form-control mt-1" required
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="name" placeholder="Nombre" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <label for="lastname">Nivel Ácademico (actual)</label>
+                        <input type="text" ng-model="solicitud.lastname" class="form-control mt-1" required
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="lastname" placeholder="Apellido Paterno" autocomplete="off"/>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                    </div>
+                    <div class="col-md-4 col-lg-4">
+                        <label for="name">Promedio General</label>
+                        <input type="text" ng-model="solicitud.surname" class="form-control mt-1"
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="surname" placeholder="Apellido Materno" autocomplete="off"/>
+                    </div>
+                </div>
+                <div class="row g-2 mt-3">
+                    <div class="col-lg-12 mt-3">
+                        <label for="" class="form-label">Motivos para obtener beca</label>
+                        <input id="x" type="hidden" name="content">
+                        <trix-editor id="trixContent" class="trix-content document-content" input="x" ng-model="solicitud.textContent"></trix-editor>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>   
+                    </div>
+                </div>
+                <div class="modal-footer row">
+                    <div class="col-lg-12 mb-3 text-end">
+                        <a href="#!/" class="btn btn-secondary">
+                            <i class="fa fa-times"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-check"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
