@@ -1,81 +1,91 @@
 package mx.edu.utez.sda.Validation.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="solicitud")
-public class Solicitud {
+public class Solicitud implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @Column(name = "nombre")
-	private String nombre;
+    @Column(name = "name")
+	private String name;
 
-	@Column(name = "apellido_paterno")
-    private String apellidoPaterno;
+	@Column(name = "lastname")
+    private String lastname;
 
-	@Column(name = "correo")
-    private String correo;
+	@Column(name = "surname")
+    private String surname;
 
-	@Column(name = "fecha_nacimiento")
-    private String fechaNacimiento;
+	@Column(name = "date_birth")
+    private Date dateBirth;
 
-	@Column(name = "direccion")
-    private String direccion;
+	@Column(name = "email")
+    private String email;
 
-	@Column(name = "sexo")
+	@Column(name = "phone")
+    private String phone;
+
+    @Column(name = "sexo")
     private String sexo;
 
-	@Column(name = "estado")
-    private String estado;
+	@OneToOne
+    @JoinColumn(name = "state")
+    private State state;
 
-	@Column(name = "municipio")
-    private String municipio;
+	@OneToOne
+    @JoinColumn(name = "municipality")
+    private Municipality municipality;
 
-	@Column(name = "eatado_civil")
-    private String estadoCivil;
+	@Column(name = "address")
+    private String address;
 
-	@Column(name = "telefono")
-    private String telefono;
+    @Column(name = "institution")
+    private String institution;
     
-	@Column(name = "nivel_academico")
-    private String nivelAcademico;
+	@OneToOne
+    @JoinColumn(name = "academic_level")
+    private AcademicLevel academicLevel;
 
-	@Column(name = "promedio")
-    private float promedio;
+	@Column(name = "average")
+    private float average;
 
-	@Column(name = "instituto")
-    private String instituto;
+	@Column(name = "reason")
+    private String reason;
 
-	@Column(name = "razon")
-    private String razon;
+    
 
-    public Solicitud(long id, String nombre, String apellidoPaterno, String correo, String fechaNacimiento,
-            String direccion, String sexo, String estado, String municipio, String estadoCivil, String telefono,
-            String nivelAcademico, float promedio, String instituto, String razon) {
+    public Solicitud(long id, String name, String lastname, String surname, Date dateBirth, String email, String phone,
+            String sexo, State state, Municipality municipality, String address, String institution,
+            AcademicLevel academicLevel, float average, String reason) {
         this.id = id;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.correo = correo;
-        this.fechaNacimiento = fechaNacimiento;
-        this.direccion = direccion;
+        this.name = name;
+        this.lastname = lastname;
+        this.surname = surname;
+        this.dateBirth = dateBirth;
+        this.email = email;
+        this.phone = phone;
         this.sexo = sexo;
-        this.estado = estado;
-        this.municipio = municipio;
-        this.estadoCivil = estadoCivil;
-        this.telefono = telefono;
-        this.nivelAcademico = nivelAcademico;
-        this.promedio = promedio;
-        this.instituto = instituto;
-        this.razon = razon;
+        this.state = state;
+        this.municipality = municipality;
+        this.address = address;
+        this.institution = institution;
+        this.academicLevel = academicLevel;
+        this.average = average;
+        this.reason = reason;
     }
 
     public long getId() {
@@ -86,44 +96,52 @@ public class Solicitud {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
+    public Date getDateBirth() {
+        return dateBirth;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setDateBirth(Date dateBirth) {
+        this.dateBirth = dateBirth;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getSexo() {
@@ -134,69 +152,60 @@ public class Solicitud {
         this.sexo = sexo;
     }
 
-    public String getEstado() {
-        return estado;
+    public State getState() {
+        return state;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setState(State state) {
+        this.state = state;
     }
 
-    public String getMunicipio() {
-        return municipio;
+    public Municipality getMunicipality() {
+        return municipality;
     }
 
-    public void setMunicipio(String municipio) {
-        this.municipio = municipio;
+    public void setMunicipality(Municipality municipality) {
+        this.municipality = municipality;
     }
 
-    public String getEstadoCivil() {
-        return estadoCivil;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEstadoCivil(String estadoCivil) {
-        this.estadoCivil = estadoCivil;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getInstitution() {
+        return institution;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setInstitution(String institution) {
+        this.institution = institution;
     }
 
-    public String getNivelAcademico() {
-        return nivelAcademico;
+    public AcademicLevel getAcademicLevel() {
+        return academicLevel;
     }
 
-    public void setNivelAcademico(String nivelAcademico) {
-        this.nivelAcademico = nivelAcademico;
+    public void setAcademicLevel(AcademicLevel academicLevel) {
+        this.academicLevel = academicLevel;
     }
 
-    public float getPromedio() {
-        return promedio;
+    public float getAverage() {
+        return average;
     }
 
-    public void setPromedio(float promedio) {
-        this.promedio = promedio;
+    public void setAverage(float average) {
+        this.average = average;
     }
 
-    public String getInstituto() {
-        return instituto;
+    public String getReason() {
+        return reason;
     }
 
-    public void setInstituto(String instituto) {
-        this.instituto = instituto;
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
-    public String getRazon() {
-        return razon;
-    }
-
-    public void setRazon(String razon) {
-        this.razon = razon;
-    }
-	
-	
 }

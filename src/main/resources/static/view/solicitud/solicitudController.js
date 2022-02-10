@@ -35,25 +35,39 @@ angular.module("routingApp").controller("SolicitudCtrl", [
       $(document).ready(function () {
 
         $('#state').select2({
-          placeholder: 'SELECCIONAR UN ESTADO...'
-          
+          placeholder: 'SELECCIONAR ESTADO...',
         });
         $('#municipality').select2({
-          placeholder: 'SELECCIONAR UN MUNICIPIO...'
-          
+          placeholder: 'SELECCIONAR MUNICIPIO...',
+        });
+        $('#academicLevel').select2({
+          placeholder: 'SELECCIONAR NIVEL ÁCADEMICO...',
         });
       })
 
       $scope.solicitud = {
           id : null,
-          name : null,
+          name : "",
+          lastname : "", 
+          surname : "",
+          dateBirth : null,
+          email: "",
+          phone: "",
+          sexo: null,
+          state: { id: null },
+          municipality : { id: null },
+          address : "",
+          institution: "",
+          academicLevel: { id: null },
+          average: null,
+          reason: "",
       }
 
 
       this.create = () => {
 
         let content = document.querySelectorAll('trix-editor');
-        $scope.notificationReport.textContent = content[0].value;
+        $scope.solicitud.reason = content[0].value;
         
         if (content[0].value.length > 0){
           return $http({
@@ -77,6 +91,63 @@ angular.module("routingApp").controller("SolicitudCtrl", [
       
           }, e => console.log("Error", e.message));
         }
+        notyf.error('Hay campos vacios o incorrectos');
       };
+
+      this.getStates = () => {
+        return $http({
+          method: 'GET',
+          url: APP_URL.url + "/state",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + $scope.token,
+          },
+        }).then((res) => {
+          $scope.listStates = res.data;
+          // document.getElementById('state').remove(0);
+        }).catch((e) => {
+          console.log(e);
+        })
+      }
+
+      this.getMunicipalities = () => {
+        return $http({
+          method: 'GET',
+          url: APP_URL.url + "/municipality",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + $scope.token,
+          },
+        }).then((res) => {
+          $scope.listMunicipalities = res.data;
+          // document.getElementById('municipality').remove(0);
+        }).catch((e) => {
+          console.log(e);
+        })
+      }
+
+      this.getAcademicLevels = () => {
+        return $http({
+          method: 'GET',
+          url: APP_URL.url + "/academic-level",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + $scope.token,
+          },
+        }).then((res) => {
+          $scope.listAcademicLevels = res.data;
+        }).catch((e) => {
+          console.log(e);
+        })
+      }
+
+      $(document).ready(function () {
+        document.getElementById('state').remove(0);
+        document.getElementById('municipality').remove(0);
+        document.getElementById('academicLevel').remove(0);
+      })
     },
   ]);

@@ -4,11 +4,11 @@
         max-height: 50vh !important;
         image-orientation: from-image;
     }
-
+ 
     .wysiwyg {
         height: 700px;
     }
-
+ 
     .wysiwyg>[contenteditable=true] {
         height: 668px !important;
         overflow-y: auto;
@@ -22,6 +22,10 @@
 <link rel="stylesheet" href="../../css/trix.css">
 <script src="../../js/trix.js"></script>
 <script src="../../js/wysiwyg/js/config.js"></script>
+ 
+<div ng-init="ctrlSolicitud.getStates()"></div>
+<div ng-init="ctrlSolicitud.getMunicipalities()"></div>
+<div ng-init="ctrlSolicitud.getAcademicLevels()"></div>
 
 <div class="container">
     <div class="card">
@@ -65,26 +69,27 @@
                     <div class="col-md-4 col-lg-4">
                         <label for="phone">Número de Teléfono</label>
                         <input type="text" ng-model="solicitud.phone" class="form-control mt-1" required
-                        pattern="[\(]?[\+]?(\d{2}|\d{3})[\)]?[\s]?((\d{6}|\d{8})|(\d{3}[\*\.\-\s]){3}|(\d{2}[\*\.\-\s]){4}|(\d{4}[\*\.\-\s]){2})|\d{8}|\d{10}|\d{12}" 
+                        pattern="[\(]?[\+]?(\d{2}|\d{3})[\)]?[\s]?((\d{6}|\d{8})|(\d{3}[\*\.\-\s]){3}|(\d{2}[\*\.\-\s]){4}|(\d{4}[\*\.\-\s]){2})|\d{8}|\d{10}|\d{12}"
                         id="phone" placeholder="Número de Teléfono" autocomplete="off"/>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
                     <div class="col-md-2 col-lg-2">
                         <label for="">Sexo</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" required>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="1" ng-model="solicitud.sexo" required>
                             <label class="form-check-label" for="flexRadioDefault1">
                               Hombre
                             </label>
+                            <div class="invalid-feedback">Este es un campo obligatorio</div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" ng-model="solicitud.sexo" required>
                             <label class="form-check-label" for="flexRadioDefault2">
                               Mujer
                             </label>
                             <div class="invalid-feedback">Este es un campo obligatorio</div>
                         </div>
-                        
+                       
                     </div>
                 </div>
                 <div class="row g-2 mt-4">
@@ -92,7 +97,7 @@
                         <label for="address">Estado</label>
                         <select class="select2 form-select custom-select" required id="state"
                             ng-model="solicitud.state"
-                            ng-options="item as item.name for item in listTypeNotification track by item.id">
+                            ng-options="item as item.name for item in listStates track by item.id">
                             <option value="">SELECCIONE UN ESTADO...</option>
                         </select>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
@@ -101,7 +106,7 @@
                         <label for="address">Municipio</label>
                         <select class="select2 form-select custom-select" required id="municipality"
                             ng-model="solicitud.municipality"
-                            ng-options="item as item.name for item in listTypeNotification track by item.id">
+                            ng-options="item as item.name for item in listMunicipalities track by item.id">
                             <option value="">SELECCIONE UN MUNICIPIO...</option>
                         </select>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
@@ -109,35 +114,37 @@
                     <div class="col-md-6 col-lg-6">
                         <label for="address">Colonia | Calle | Número</label>
                         <input type="text" ng-model="solicitud.address" class="form-control mt-1" required
-                        id="address" placeholder="Dirección" autocomplete="off"/>
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9#.,\s]{2,100}" id="address" placeholder="Dirección" autocomplete="off"/>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
                 </div>
                 <div class="row g-2 mt-3">
                     <div class="col-md-4 col-lg-4">
-                        <label for="name">Institución</label>
-                        <input type="text" ng-model="solicitud.name" class="form-control mt-1" required
-                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="name" placeholder="Nombre" autocomplete="off"/>
+                        <label for="institution">Institución</label>
+                        <input type="text" ng-model="solicitud.institution" class="form-control mt-1" required
+                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9\s]{2,100}" id="institution" placeholder="Institución" autocomplete="off"/>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
                     <div class="col-md-4 col-lg-4">
-                        <label for="lastname">Nivel Ácademico (actual)</label>
-                        <input type="text" ng-model="solicitud.lastname" class="form-control mt-1" required
-                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="lastname" placeholder="Apellido Paterno" autocomplete="off"/>
-                        <div class="invalid-feedback">Este es un campo obligatorio</div>
+                        <label for="academicLevel">Nivel Ácademico (actual)</label>
+                        <select class="select2 form-select custom-select" required id="academicLevel"
+                            ng-model="solicitud.academicLevel"
+                            ng-options="item as item.name for item in listAcademicLevels track by item.id">
+                            <option value="">SELECCIONE UN NIVEL ÁCADEMICO...</option>
+                        </select>
                     </div>
                     <div class="col-md-4 col-lg-4">
-                        <label for="name">Promedio General</label>
-                        <input type="text" ng-model="solicitud.surname" class="form-control mt-1"
-                        pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}" id="surname" placeholder="Apellido Materno" autocomplete="off"/>
+                        <label for="average">Promedio General</label>
+                        <input type="number" step="0.01" ng-model="solicitud.average" class="form-control mt-1"
+                        id="surname" placeholder="Promedio General" autocomplete="off" required/>
                     </div>
                 </div>
                 <div class="row g-2 mt-3">
                     <div class="col-lg-12 mt-3">
-                        <label for="" class="form-label">Motivos para obtener beca</label>
+                        <label for="reason" class="form-label">Motivos para obtener beca</label>
                         <input id="x" type="hidden" name="content">
-                        <trix-editor id="trixContent" class="trix-content document-content" input="x" ng-model="solicitud.textContent"></trix-editor>
-                        <div class="invalid-feedback">Este es un campo obligatorio</div>   
+                        <trix-editor id="trixContent" class="trix-content document-content" input="x" ng-model="solicitud.reason"></trix-editor>
+                        <div class="invalid-feedback">Este es un campo obligatorio</div>  
                     </div>
                 </div>
                 <div class="modal-footer row">
