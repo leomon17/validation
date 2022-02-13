@@ -13,6 +13,52 @@ angular.module("routingApp").controller("LoginCtrl", [
           y: "top",
         },
       });
-  
+      
+      (() => {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach((form) => {
+          form.addEventListener('submit', (event) => {
+            if (!form.checkValidity()) {
+              event.preventDefault();
+              event.stopPropagation();
+              notyf.error('Hay campos vacios o incorrectos');
+            }
+            else {
+              this.login(); 
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      })();
+
+      $scope.user = {
+        username: null,
+        password: null,
+      };
+
+      this.login = ()=>{
+        console.log($scope.user)
+        return $http({
+          method: "POST",
+          url: APP_URL.url+"/user/verify",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          data: $scope.user,
+        })
+          .then((res) => {
+            console.log(res)
+            if (res.data) {
+              $window.location.href = "#!/solicitud";
+            } else {
+              notyf.error("Usuario y/o Contraseña Incorrecto");
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          });
+      }  
     },
   ]);

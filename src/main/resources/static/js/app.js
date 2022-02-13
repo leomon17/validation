@@ -6,11 +6,18 @@ angular
       $routeProvider
         .when('/', {
           templateUrl: 'login.html',
+          controller: 'LoginCtrl',
+          controllerAs: 'ctrlLogin',
         })
         .when('/login', {
           templateUrl: 'login.html',
           controller: 'LoginCtrl',
           controllerAs: 'ctrlLogin',
+        })
+        .when('/solicitud', {
+          templateUrl: '/view/solicitud/solicitud.html',
+          controller: 'SolicitudCtrl',
+          controllerAs: 'ctrlSolicitud',
         })
         .when('/solicitud/create', {
           templateUrl: '/view/solicitud/solicitudCreate.html',

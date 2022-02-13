@@ -1,18 +1,18 @@
 angular.module("routingApp").controller("SolicitudCtrl", [
-    "$rootScope",
-    "$scope",
-    "$http",
-    "APP_URL",
-    "$routeParams",
-    "$window",
-    function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
-      const notyf = new Notyf({
-        duration: 2500,
-        position: {
-          x: "right",
-          y: "top",
-        },
-      });
+"$rootScope",
+"$scope",
+"$http",
+"APP_URL",
+"$routeParams",
+"$window",
+function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
+  const notyf = new Notyf({
+    duration: 2500,
+    position: {
+      x: "right",
+      y: "top",
+    },
+  });
 
       (() => {
         'use strict';
@@ -63,7 +63,26 @@ angular.module("routingApp").controller("SolicitudCtrl", [
           reason: "",
       }
 
-
+      this.getRequests = () => {
+        return $http({
+          method: 'GET',
+          url: APP_URL.url + "/solicitud",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: "Bearer " + $scope.token,
+          },
+        }).then((res) => {
+          setTimeout(executeDataTable, 1);
+          $scope.listRequests = res.data;
+          // document.getElementById('state').remove(0);
+          // document.getElementById('municipality').remove(0);
+          // document.getElementById('academicLevel').remove(0);
+        }).catch((e) => {
+          console.log(e);
+        })
+      }
+      
       this.create = () => {
 
         let content = document.querySelectorAll('trix-editor');
@@ -85,6 +104,7 @@ angular.module("routingApp").controller("SolicitudCtrl", [
       
             if (res.data) {
               notyf.success('Notificación registrada correctamente');
+              this.getRequests();
             } else {
               notyf.error('Ocurrió un error al crear la Notificación');
             }
@@ -144,10 +164,31 @@ angular.module("routingApp").controller("SolicitudCtrl", [
         })
       }
 
-      $(document).ready(function () {
+      this.deleteIndexOne = () => {
         document.getElementById('state').remove(0);
         document.getElementById('municipality').remove(0);
         document.getElementById('academicLevel').remove(0);
-      })
-    },
-  ]);
+      }
+
+      const cleanIndexOne = () => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() =>{
+            resolve(this.getStates(), this.getMunicipalities(), this.getAcademicLevels());
+          },100)
+        });
+      }
+
+      cleanIndexOne()
+        .then(() => this.deleteIndexOne());
+      
+     
+      // -----------------------DATA TABLES------------------------------
+
+    function executeDataTable() {
+      $('#solicitudTable').DataTable({
+      language: {
+          url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json',
+      },
+      });
+    }
+},]);

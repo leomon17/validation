@@ -1,13 +1,18 @@
 package mx.edu.utez.sda.Validation.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import mx.edu.utez.sda.Validation.entity.Solicitud;
+import mx.edu.utez.sda.Validation.entity.DataTransferObject.SolicitudDTO;
 import mx.edu.utez.sda.Validation.service.SolicitudService;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -18,6 +23,12 @@ public class SolicitudController {
     @Autowired
     private SolicitudService solicitudService;
 
+    @GetMapping(value = "")
+    @Transactional(readOnly = true)
+    public List<SolicitudDTO> findAllRequests(){
+        return solicitudService.findAllRequests();
+    }
+    
     @RequestMapping(value="/save", method = { RequestMethod.GET, RequestMethod.POST })
     public boolean save(@RequestBody Solicitud obj) {
         
