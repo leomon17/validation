@@ -15,8 +15,6 @@ public class UserService implements Serializable {
     private IUserRepository userRepository;
 
     public User verificarUsuario(String username, String password){
-        System.out.println("------Service-------------");
-        System.out.println(username + password);
         return userRepository.verificarUsuario(username, password);
     }
 }

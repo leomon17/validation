@@ -19,11 +19,9 @@ public class UserController {
 
     @RequestMapping(value = "/verify", method = { RequestMethod.GET, RequestMethod.POST })
     public User verificarUsuario(@RequestBody User user){
-        
+        String username = user.getUserName();
+        String password = user.getPassword();
         try {
-            String username = "misaelmtz";
-            String password = "root123";
-            System.out.println("Desde el controller: " + username);
             return userService.verificarUsuario(username, password);
         } catch (Exception e) {
             System.out.println(e.getMessage());

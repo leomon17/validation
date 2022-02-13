@@ -19,9 +19,17 @@ function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
         const forms = document.querySelectorAll('.needs-validation');
         Array.prototype.slice.call(forms).forEach((form) => {
           form.addEventListener('submit', (event) => {
+            let content = document.querySelectorAll('trix-editor');
+            let reasonContent = $('#reasonContent');
             if (!form.checkValidity()) {
               event.preventDefault();
               event.stopPropagation();
+              reasonContent.empty();
+              if (content[0].value.length < 1) {
+                reasonContent.append(`<div class="small text-danger">Este es un campo obligatorio</div>`);
+              }else{
+                reasonContent.empty();
+              }
               notyf.error('Hay campos vacios o incorrectos');
             }
             else {
@@ -43,6 +51,14 @@ function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
         $('#academicLevel').select2({
           placeholder: 'SELECCIONAR NIVEL ÁCADEMICO...',
         });
+
+        let input = document.getElementById('dateBirth');
+        let min = (input) =>{
+        let actualDate = new Date();
+          let fecha = (actualDate.getFullYear()-18) + "-" + ((actualDate.getMonth()+1) < 10 ? "0" + (actualDate.getMonth()+1): actualDate.getMonth()+1) + "-" +((actualDate.getDate()) < 10 ? "0" + (actualDate.getDate()): actualDate.getDate());
+          input.max = fecha;
+        };
+        min(input);
       })
 
       $scope.solicitud = {
@@ -75,9 +91,6 @@ function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
         }).then((res) => {
           setTimeout(executeDataTable, 1);
           $scope.listRequests = res.data;
-          // document.getElementById('state').remove(0);
-          // document.getElementById('municipality').remove(0);
-          // document.getElementById('academicLevel').remove(0);
         }).catch((e) => {
           console.log(e);
         })
@@ -87,7 +100,6 @@ function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
 
         let content = document.querySelectorAll('trix-editor');
         $scope.solicitud.reason = content[0].value;
-        
         if (content[0].value.length > 0){
           return $http({
             method: "POST",
@@ -173,7 +185,9 @@ function ($rootScope, $scope, $http, APP_URL, $routeParams, $window) {
       const cleanIndexOne = () => {
         return new Promise((resolve, reject) => {
           setTimeout(() =>{
-            resolve(this.getStates(), this.getMunicipalities(), this.getAcademicLevels());
+            resolve(this.getStates(), 
+            this.getMunicipalities(), 
+            this.getAcademicLevels());
           },100)
         });
       }

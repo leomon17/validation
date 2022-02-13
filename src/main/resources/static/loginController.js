@@ -33,12 +33,11 @@ angular.module("routingApp").controller("LoginCtrl", [
       })();
 
       $scope.user = {
-        username: null,
+        userName: null,
         password: null,
       };
 
       this.login = ()=>{
-        console.log($scope.user)
         return $http({
           method: "POST",
           url: APP_URL.url+"/user/verify",
@@ -51,6 +50,7 @@ angular.module("routingApp").controller("LoginCtrl", [
           .then((res) => {
             console.log(res)
             if (res.data) {
+              notyf.success('Usuario validado');
               $window.location.href = "#!/solicitud";
             } else {
               notyf.error("Usuario y/o Contraseña Incorrecto");

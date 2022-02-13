@@ -55,9 +55,9 @@
                 </div>
                 <div class="row g-2 mt-4">
                     <div class="col-md-2 col-lg-2">
-                        <label for="phone">Fecha Nacimiento</label>
+                        <label for="dateBirth">Fecha Nacimiento</label>
                         <input type="date" ng-model="solicitud.dateBirth" class="form-control mt-1" required
-                        pattern="" id="phone" placeholder="Fecha" autocomplete="off"/>
+                        pattern="" id="dateBirth" placeholder="Fecha" autocomplete="off"/>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
                     <div class="col-md-4 col-lg-4">
@@ -69,7 +69,7 @@
                     <div class="col-md-4 col-lg-4">
                         <label for="phone">Número de Teléfono</label>
                         <input type="text" ng-model="solicitud.phone" class="form-control mt-1" required
-                        pattern="[\(]?[\+]?(\d{2}|\d{3})[\)]?[\s]?((\d{6}|\d{8})|(\d{3}[\*\.\-\s]){3}|(\d{2}[\*\.\-\s]){4}|(\d{4}[\*\.\-\s]){2})|\d{8}|\d{10}|\d{12}"
+                        pattern="(\+52|52)?[ -]*([0-9][ -]*){10}"
                         id="phone" placeholder="Número de Teléfono" autocomplete="off"/>
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
@@ -80,7 +80,6 @@
                             <label class="form-check-label" for="flexRadioDefault1">
                               Hombre
                             </label>
-                            <div class="invalid-feedback">Este es un campo obligatorio</div>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="2" ng-model="solicitud.sexo" required>
@@ -94,7 +93,7 @@
                 </div>
                 <div class="row g-2 mt-4">
                     <div class="col-md-3 col-lg-3">
-                        <label for="address">Estado</label>
+                        <label for="address" class="mb-1">Estado</label>
                         <select class="select2 form-select custom-select" required id="state"
                             ng-model="solicitud.state"
                             ng-options="item as item.name for item in listStates track by item.id">
@@ -103,7 +102,7 @@
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
                     <div class="col-md-3 col-lg-3">
-                        <label for="address">Municipio</label>
+                        <label for="address" class="mb-1">Municipio</label>
                         <select class="select2 form-select custom-select" required id="municipality"
                             ng-model="solicitud.municipality"
                             ng-options="item as item.name for item in listMunicipalities track by item.id">
@@ -126,7 +125,7 @@
                         <div class="invalid-feedback">Este es un campo obligatorio</div>
                     </div>
                     <div class="col-md-4 col-lg-4">
-                        <label for="academicLevel">Nivel Ácademico (actual)</label>
+                        <label for="academicLevel" class="mb-1">Nivel Ácademico (actual)</label>
                         <select class="select2 form-select custom-select" required id="academicLevel"
                             ng-model="solicitud.academicLevel"
                             ng-options="item as item.name for item in listAcademicLevels track by item.id">
@@ -144,10 +143,10 @@
                         <label for="reason" class="form-label">Motivos para obtener beca</label>
                         <input id="x" type="hidden" name="content">
                         <trix-editor id="trixContent" class="trix-content document-content" input="x" ng-model="solicitud.reason"></trix-editor>
-                        <div class="invalid-feedback">Este es un campo obligatorio</div>  
+                        <div id="reasonContent"></div>  
                     </div>
                 </div>
-                <div class="modal-footer row">
+                <div class="modal-footer row mt-3">
                     <div class="col-lg-12 mb-3 text-end">
                         <a href="#!/solicitud" class="btn btn-secondary">
                             <i class="fa fa-times"></i> Cancelar
@@ -161,3 +160,13 @@
         </form>
     </div>
 </div>
+<!-- <script>
+    var input = document.getElementById('dateBirth');
+    let min = (input) =>{
+        let actualDate = new Date();
+        let fecha = (actualDate.getFullYear()-18) + "-" + ((actualDate.getMonth()+1) < 10 ? "0" + (actualDate.getMonth()+1): actualDate.getMonth()+1) + "-" +((actualDate.getDate()) < 10 ? "0" + (actualDate.getDate()): actualDate.getDate());
+        input.max = fecha;
+    };
+    
+    min(input);
+</script> -->
