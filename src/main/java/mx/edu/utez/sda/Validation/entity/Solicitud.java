@@ -11,6 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name="solicitud")
@@ -21,48 +28,69 @@ public class Solicitud implements Serializable{
     @Column(name = "id")
     private long id;
 
+    @NotBlank(message ="El nombre no puede estar vacío")
+    @Length(min=2, message = "La longitud máxima del nombre real es 2")
     @Column(name = "name")
 	private String name;
 
+    @NotBlank(message ="El Apellido no puede estar vacío")
+    @Length(min=2, message = "La longitud máxima del apellido paterno es 2")
 	@Column(name = "lastname")
     private String lastname;
 
 	@Column(name = "surname")
     private String surname;
 
+    @Past(message = "La fecha no es valida")
+    @NotNull(message ="La fecha de nacimiento no puede estar vacía")
 	@Column(name = "date_birth")
     private Date dateBirth;
 
+    @Email(message="El correo debe de ser valido")
 	@Column(name = "email")
     private String email;
 
+    @NotNull(message ="El numero debe ser de 10 dígitos")
+    @Length(min=9, max=15, message = "La longitud máxima del Numero es 10")
 	@Column(name = "phone")
     private String phone;
 
+    @NotNull(message ="El sexo no puede estar vacío")
     @Column(name = "sexo")
     private String sexo;
 
+    @NotNull(message ="El estado no puede estar vacío")
 	@OneToOne
     @JoinColumn(name = "state")
     private State state;
 
+    @NotNull(message ="El municipio no puede estar vacío")
 	@OneToOne
     @JoinColumn(name = "municipality")
     private Municipality municipality;
 
+    @NotNull(message ="La dirección no puede estar vacía")
+    @Length(min=2, message = "La longitud máxima de la dirección es 2")
 	@Column(name = "address")
     private String address;
 
+    @NotNull(message ="La institution no puede estar vacía")
+    @Length(min=2, message = "La longitud máxima de la institution es 2")
     @Column(name = "institution")
     private String institution;
     
+    @NotNull(message ="Grado academico no puede estar vacío")
 	@OneToOne
     @JoinColumn(name = "academic_level")
     private AcademicLevel academicLevel;
 
+    @NotNull(message ="El Promedio no puede estar vacío")
+    @Max(value=100, message ="El Promedio no puedes ser mayor a 100")
+    @Digits(integer = 3, fraction = 2, message = "La longitud máxima del Numero es 100")
 	@Column(name = "average")
     private float average;
 
+    @NotNull(message ="La razon no puede estar vacía")
 	@Column(name = "reason")
     private String reason;
 

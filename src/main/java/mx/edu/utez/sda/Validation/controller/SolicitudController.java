@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,9 +33,16 @@ public class SolicitudController {
     }
     
     @RequestMapping(value="/save", method = { RequestMethod.GET, RequestMethod.POST })
-    public boolean save(@RequestBody Solicitud obj) {
+    public boolean save(@RequestBody @Validated Solicitud obj, BindingResult bindingResult) {
         
         try {
+            if(bindingResult.hasErrors()){
+                for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                    System.out.println(fieldError.getDefaultMessage());// Imprime el mensaje de error
+                }
+                return false;// Retorna falso
+            }
+
             solicitudService.save(obj);
         return true;
         } catch (Exception e) {
